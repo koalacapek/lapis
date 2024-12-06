@@ -7,16 +7,13 @@ import { useRouter, RouterLink } from 'vue-router'
 const formState = reactive({
   fullname: '',
   email: '',
-  dob: '',
-  hospitalName: '',
-  specialization: '',
-  location: '',
-  phone: '',
   password: '',
   confirm: '',
 })
 
 const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+const passwordRequirements = `At least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number, 1 special character (@$!%*?&)
+`
 
 const error = ref('')
 const router = useRouter()
@@ -78,7 +75,10 @@ const onFinish = () => {
           class="mb-2"
           :rules="[
             { required: true, message: 'Please input your password!' },
-            { pattern: passwordPattern, message: 'Password must meet the requirements!' },
+            {
+              pattern: passwordPattern,
+              message: 'Password must meet the requirements: ' + passwordRequirements.trim(),
+            },
           ]"
           has-feedback
         >
